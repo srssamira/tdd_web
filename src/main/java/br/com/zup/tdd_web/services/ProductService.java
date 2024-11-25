@@ -5,6 +5,8 @@ import br.com.zup.tdd_web.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProductService {
     @Autowired
@@ -14,6 +16,22 @@ public class ProductService {
         if(productRepository.existsByNameAndProductType(product.getName(), product.getProductType())){
             throw new RuntimeException("Product already exists");
         }
+        return productRepository.save(product);
+    }
+
+    public Product updateStorage(String idProduct){
+        Optional<Product> productOptional = productRepository.findById(idProduct);
+        if(productOptional.isEmpty()){
+            throw new RuntimeException("Product not find");
+        }
+
+        Product product = productOptional.get();
+
+        if(product.getStorage() <= 0){
+            throw new RuntimeException("Don't have this item on storage");
+        }
+
+        product.setStorage(product.getStorage()-1);
         return productRepository.save(product);
     }
 }
