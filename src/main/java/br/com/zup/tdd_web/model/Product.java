@@ -23,6 +23,8 @@ public class Product {
     private List<Category> categories;
     @Column(nullable = false)
     private String description;
+    @Column(nullable = false)
+    private int storage;
 
     public Product() {
     }
@@ -73,5 +75,17 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
+    public int getStorage() {
+        return storage;
+    }
+
+    public void setStorage(int storage) {
+        this.storage = storage;
     }
 }
