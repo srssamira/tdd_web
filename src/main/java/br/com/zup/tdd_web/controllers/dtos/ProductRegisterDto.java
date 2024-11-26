@@ -16,6 +16,15 @@ public class ProductRegisterDto {
     public ProductRegisterDto() {
     }
 
+    public ProductRegisterDto(String name, float price, ProductType productType, List<Category> categories, String description, int storage) {
+        this.name = name;
+        this.price = price;
+        this.productType = productType;
+        this.categories = categories;
+        this.description = description;
+        this.storage = storage;
+    }
+
     public String getName() {
         return name;
     }

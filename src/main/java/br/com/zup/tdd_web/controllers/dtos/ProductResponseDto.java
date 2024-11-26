@@ -5,7 +5,7 @@ import br.com.zup.tdd_web.model.ProductType;
 
 import java.util.List;
 
-public class ProductReponseDto {
+public class ProductResponseDto {
     private String id;
     private String name;
     private float price;
@@ -14,7 +14,7 @@ public class ProductReponseDto {
     private String description;
     private int storage;
 
-    public ProductReponseDto() {
+    public ProductResponseDto() {
     }
 
     public String getId() {
