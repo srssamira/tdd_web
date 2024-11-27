@@ -5,9 +5,7 @@ import br.com.zup.tdd_web.controllers.dtos.ProductRegisterDto;
 import br.com.zup.tdd_web.model.Category;
 import br.com.zup.tdd_web.model.Product;
 import br.com.zup.tdd_web.model.ProductType;
-import br.com.zup.tdd_web.repositories.ProductRepository;
 import br.com.zup.tdd_web.services.ProductService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @WebMvcTest(ProductController.class)
@@ -72,7 +69,7 @@ public class ProductControllerTest {
     public void testWhenUpdateProductStorageNotExist() throws Exception {
 
         Mockito.when(productService.updateStorage(product.getId()))
-                .thenThrow(new RuntimeException("Product not find"));
+                .thenThrow(new NotFoundProductStorageException("Product not find"));
 
         String json = mapper.writeValueAsString(product.getId());
 
@@ -89,7 +86,7 @@ public class ProductControllerTest {
     @Test
     public void testWhenUpdateProductStorageIsLessThanOrEqualToZero() throws Exception {
         Mockito.when(productService.updateStorage(product.getId()))
-                .thenThrow(new RuntimeException("Don't have this item on storage"));
+                .thenThrow(new FinishStorageException("Don't have this item on storage"));
 
         String json = mapper.writeValueAsString(product.getId());
 
@@ -98,7 +95,7 @@ public class ProductControllerTest {
                                 .patch("/products/" + product.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message", CoreMatchers.is("Don't have this item on storage")));
     }
 }

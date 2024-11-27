@@ -34,8 +34,11 @@ public class ProductController {
             Product product = productService.updateStorage(idProduct);
             return ResponseEntity.status(200).body(ProductMapper.toProductReponseDto(product));
         }
-        catch (RuntimeException exception){
-            return ResponseEntity.status(404).body(Map.of("message", exception.getMessage()));
+        catch (NotFoundProductStorageException notFoundProductStorageException ){
+            return ResponseEntity.status(404).body(Map.of("message", notFoundProductStorageException.getMessage()));
+        }
+        catch (FinishStorageException finishStorageException) {
+            return ResponseEntity.status(422).body(Map.of("message", finishStorageException.getMessage()));
         }
 
     }

@@ -1,5 +1,7 @@
 package br.com.zup.tdd_web.services;
 
+import br.com.zup.tdd_web.controllers.FinishStorageException;
+import br.com.zup.tdd_web.controllers.NotFoundProductStorageException;
 import br.com.zup.tdd_web.model.Product;
 import br.com.zup.tdd_web.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +24,13 @@ public class ProductService {
     public Product updateStorage(String idProduct){
         Optional<Product> productOptional = productRepository.findById(idProduct);
         if(productOptional.isEmpty()){
-            throw new RuntimeException("Product not find");
+            throw new NotFoundProductStorageException("Product not find");
         }
 
         Product product = productOptional.get();
 
         if(product.getStorage() <= 0){
-            throw new RuntimeException("Don't have this item on storage");
+            throw new FinishStorageException("Don't have this item on storage");
         }
 
         product.setStorage(product.getStorage()-1);
